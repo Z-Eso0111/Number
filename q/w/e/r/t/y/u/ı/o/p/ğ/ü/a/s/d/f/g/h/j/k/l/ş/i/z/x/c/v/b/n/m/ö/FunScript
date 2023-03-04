@@ -1,0 +1,74 @@
+local soundIds = {
+    "rbxassetid://8880765497",
+    "rbxassetid://9126214337",
+    "rbxassetid://10494285968"
+}
+
+local function playSound()
+    local randomNumber = math.random(1, 10)
+    if randomNumber == 1 then
+        local soundId = soundIds[math.random(1, #soundIds)]
+        local sound = Instance.new("Sound")
+        sound.SoundId = soundId
+        sound.Parent = game.Workspace
+        sound:Play()
+    elseif randomNumber == 5 then
+        wait(5)
+    elseif randomNumber == 6 then
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(0, 0, 0)
+    elseif randomNumber == 7 then
+        local gui = Instance.new("ScreenGui")
+        gui.Parent = game.Players.LocalPlayer.PlayerGui
+        local frame = Instance.new("Frame")
+        frame.Size = UDim2.new(1, 0, 1, 0)
+        frame.BackgroundColor3 = Color3.new(0, 0, 0)
+        frame.BackgroundTransparency = 0.5
+        frame.Parent = gui
+        wait(5)
+        gui:Destroy()
+    elseif randomNumber == 8 then
+        for _, child in ipairs(game.Workspace:GetDescendants()) do
+            if child:IsA("BasePart") then
+                child.Texture = ""
+            end
+        end
+    elseif randomNumber == 9 then
+        local randomPlayer = game.Players:GetPlayers()[math.random(1, #game.Players:GetPlayers())]
+        if randomPlayer then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = randomPlayer.Character.HumanoidRootPart.CFrame
+        else
+            local label = Instance.new("TextLabel")
+            label.Text = "Oyuncu bulunamadı"
+            label.Size = UDim2.new(0, 200, 0, 50)
+            label.Position = UDim2.new(0.5, -100, 0.5, -25)
+            label.BackgroundTransparency = 0.5
+            label.BackgroundColor3 = Color3.new(1, 1, 1)
+            label.Parent = game.Players.LocalPlayer.PlayerGui
+            wait(2)
+            label:Destroy()
+        end
+    elseif randomNumber == 10 then
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = true
+        wait(2)
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
+    else
+        local explosion = Instance.new("Explosion")
+        explosion.Position = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
+        explosion.BlastRadius = 0
+        explosion.DestroyJointRadiusPercent = 0
+        explosion.BlastPressure = 0
+        explosion.Hit:Connect(function(hit)
+            if hit.Parent and hit.Parent:IsA("BasePart") then
+                hit.Parent.Material = Enum.Material.Neon
+                hit.Parent.Color = Color3.new(1, 1, 1)
+                hit.Parent.Transparency = 0.5
+            end
+        end)
+        explosion:Explode()
+    end
+end
+
+while true do
+    wait(60)
+    playSound()
+end
